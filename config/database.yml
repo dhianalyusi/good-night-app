@@ -1,46 +1,32 @@
 pgsql: &pgsql
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV['DB_POOL'] || 5 %>
-  checkout_timeout: <%= ENV['DB_TIMEOUT'] || 5000 %>
+  pool: <%= ENV.fetch('DB_POOL', 5) %>
+  checkout_timeout: <%= ENV.fetch('DB_TIMEOUT', 5000) %>
 
 defaults: &defaults
   gssencmode: disable
-  <<: *<%= ENV['DB'] || "pgsql" %>
-  host: <%= ENV['DB_HOST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  database: <%= ENV['DB_NAME'] %>
-  port: <%= ENV['DB_PORT'] || 5432 %>
+  <<: *pgsql
+  host: <%= ENV.fetch('DB_HOST', 'localhost') %>
+  username: <%= ENV.fetch('DB_USER', 'postgres') %>
+  password: <%= ENV.fetch('DB_PASSWORD', '') %>
+  port: <%= ENV.fetch('DB_PORT', 5432) %>
+
+# Per-environment configurations. If DATABASE_URL is provided, Rails will use that
+# automatically, otherwise these values will be used.
 
 test:
   <<: *defaults
-  host: <%= ENV['DB_HOST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  database: <%= ENV['DB_NAME'] %>
-  port: <%= ENV['DB_PORT'] || 5432 %>
+  database: <%= ENV.fetch('DB_NAME', "good_night_app_test") %>
 
 development:
   <<: *defaults
-  host: <%= ENV['DB_HOST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  database: <%= ENV['DB_NAME'] %>
-  port: <%= ENV['DB_PORT'] || 5432 %>
+  database: <%= ENV.fetch('DB_NAME', "good_night_app_development") %>
 
 staging:
   <<: *defaults
-  host: <%= ENV['DB_HOST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  database: <%= ENV['DB_NAME'] %>
-  port: <%= ENV['DB_PORT'] || 5432 %>
+  database: <%= ENV.fetch('DB_NAME', "good_night_app_staging") %>
 
 production:
   <<: *defaults
-  host: <%= ENV['DB_HOST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  database: <%= ENV['DB_NAME'] %>
-  port: <%= ENV['DB_PORT'] || 5432 %>
+  database: <%= ENV.fetch('DB_NAME', "good_night_app_production") %>

@@ -1,10 +1,7 @@
 module Api
   module V1
     class UserController < ActionController::API
-      # Find and return the acting user from params[:user_id].
-      def current_user
-        User.find(params[:user_id])
-      end
+      rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
       # Follow user. Expects params[:followed_id].
       #
@@ -15,9 +12,6 @@ module Api
       # Failure: 422 with errors.
       def follow
         user = User.find(params[:followed_id])
-        unless user.present?
-          render json: { error: "User not found" }, status: :unprocessable_entity
-        end
         follow = Follow.new(follower: current_user, followed: user)
 
         if follow.save
@@ -44,6 +38,16 @@ module Api
         else
           render json: { error: "You are not following #{followed.name}" }, status: :not_found
         end
+      end
+
+      private
+
+      def record_not_found
+        render json: { error: "User not found" }, status: :not_found
+      end
+
+      def current_user
+        User.find(params[:user_id])
       end
     end
   end

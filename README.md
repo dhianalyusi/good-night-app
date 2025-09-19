@@ -31,13 +31,19 @@ cd good-night-app
 bundle install
 ```
 
-### 3. Setup Database
+### 3. Copy the example file:
+```bash
+cp .env.example .env
+```
+Edit .env with your local credentials
+
+### 4. Setup Database
 ```bash
 rails db:create
 rails db:migrate
 ```
 
-### 4. Run Server
+### 5. Run Server
 ```bash
 rails server
 ```

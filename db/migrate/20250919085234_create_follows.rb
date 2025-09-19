@@ -8,6 +8,6 @@ class CreateFollows < ActiveRecord::Migration[8.0]
 
     add_index :follows, :follower_id, if_not_exists: true, name: "index_follows_on_follower_id"
     add_index :follows, :followed_id, if_not_exists: true, name: "index_follows_on_followed_id"
-    add_index :follows, [:follower_id, :followed_id], unique: true, name: "index_follows_on_follower_and_followed"
+    add_index :follows, [ :follower_id, :followed_id ], unique: true, name: "index_follows_on_follower_and_followed"
   end
 end

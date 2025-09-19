@@ -7,3 +7,24 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+puts "🌱 Seeding users..."
+
+User.destroy_all
+
+users = [
+  "Agus Setiawan",
+  "Andi Pratama",
+  "Budi Santoso",
+  "Dewi Lestari",
+  "Hendra Gunawan",
+  "Maya Putri",
+  "Nur Aisyah",
+  "Rudi Hartono",
+  "Siti Aminah",
+  "Sri Wahyuni"
+]
+
+users.each do |name|
+  User.create!(name: name)
+end

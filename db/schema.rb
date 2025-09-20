@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_19_085234) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_19_174053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_085234) do
     t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
+  create_table "sleep_sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "sleep_at", null: false
+    t.datetime "wake_at"
+    t.integer "duration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sleep_at"], name: "index_sleep_sessions_on_sleep_at"
+    t.index ["user_id", "created_at", "duration"], name: "index_sleep_sessions_on_user_id_and_created_at_and_duration"
+    t.index ["user_id", "created_at"], name: "index_sleep_sessions_on_user_id_and_created_at"
+    t.index ["user_id", "sleep_at"], name: "index_sleep_sessions_finished", where: "(wake_at IS NOT NULL)"
+    t.index ["user_id"], name: "index_sleep_sessions_on_user_id"
+    t.index ["wake_at"], name: "index_sleep_sessions_on_wake_at"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -33,4 +48,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_085234) do
 
   add_foreign_key "follows", "users", column: "followed_id"
   add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "sleep_sessions", "users"
 end

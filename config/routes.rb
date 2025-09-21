@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
   # Mount rswag endpoints for API documentation in development and test
   if Rails.env.development? || Rails.env.test?
-    mount Rswag::Ui::Engine => '/api-docs'
-    mount Rswag::Api::Engine => '/api-docs'
+    mount Rswag::Ui::Engine => "/api-docs"
+    mount Rswag::Api::Engine => "/api-docs"
   end
 end

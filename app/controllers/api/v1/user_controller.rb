@@ -1,12 +1,12 @@
 module Api
   module V1
-    class UserController < ActionController::API
+    class UserController < ApplicationController
       rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
       # Follow user. Expects params[:followed_id].
       #
       # Routes:
-      #   POST   /api/v1/users/:user_id/follow
+      #   POST   /api/v1/user/:user_id/follow
       #
       # Success: 201 with a message.
       # Failure: 422 with errors.
@@ -24,7 +24,7 @@ module Api
       # Unfollow user. Expects params[:followed_id].
       #
       # Routes:
-      #   DELETE /api/v1/users/:user_id/unfollow
+      #   DELETE /api/v1/user/:user_id/unfollow
       #
       # Success: 200 with a message.
       # Failure: 404 if not following.
@@ -40,14 +40,30 @@ module Api
         end
       end
 
-      private
+      # Get following user.
+      #
+      # Routes:
+      #   GET /api/v1/user/:user_id/following
+      #
+      # Success: 200 with a message.
+      def following
+        user = User.find(params[:user_id])
+        following = user.following
 
-      def record_not_found
-        render json: { error: "User not found" }, status: :not_found
+        render json: { data: following }, status: :ok
       end
 
-      def current_user
-        User.find(params[:user_id])
+      # Get follower user.
+      #
+      # Routes:
+      #   GET /api/v1/user/:user_id/follower
+      #
+      # Success: 200 with a message.
+      def followers
+        user = User.find(params[:user_id])
+        followers = user.followers
+
+        render json: { data: followers }, status: :ok
       end
     end
   end

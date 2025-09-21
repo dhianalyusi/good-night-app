@@ -1,0 +1,46 @@
+---
+openapi: 3.0.1
+info:
+  title: Good Night App API
+  version: v1
+paths:
+  "/api/v1/user/{user_id}/follow":
+    post:
+      summary: follow a user
+      tags:
+      - User
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: followed_id
+        in: query
+        schema:
+          type: integer
+      responses:
+        '201':
+          description: created
+        '404':
+          description: not found
+  "/api/v1/user/{user_id}/unfollow":
+    delete:
+      summary: unfollow a user
+      tags:
+      - User
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: followed_id
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: ok
+        '404':
+          description: not found

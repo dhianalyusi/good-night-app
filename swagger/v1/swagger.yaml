@@ -6,29 +6,50 @@ info:
 paths:
   "/api/v1/user/{user_id}/follow":
     post:
-      summary: follow a user
       tags:
       - User
+      summary: Follow a user
       parameters:
       - name: user_id
         in: path
         required: true
         schema:
           type: integer
-      - name: followed_id
-        in: query
-        schema:
-          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                followed_id:
+                  type: integer
+              required:
+              - followed_id
       responses:
         '201':
-          description: created
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
         '404':
-          description: not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
   "/api/v1/user/{user_id}/unfollow":
     delete:
-      summary: unfollow a user
       tags:
       - User
+      summary: Unfollow a user
       parameters:
       - name: user_id
         in: path
@@ -37,10 +58,94 @@ paths:
           type: integer
       - name: followed_id
         in: query
+        required: true
         schema:
           type: integer
       responses:
         '200':
-          description: ok
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
         '404':
-          description: not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  "/api/v1/user/{user_id}/following":
+    get:
+      tags:
+      - User
+      summary: Get user that the given user is following
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of user the user is following
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  "/api/v1/user/{user_id}/followers":
+    get:
+      tags:
+      - User
+      summary: Get user who follow the given user
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of followers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+components: {}

@@ -49,8 +49,19 @@ module Api
       def following
         user = User.find(params[:user_id])
         following = user.following
+                        .page(params[:page])
+                        .per(params[:per_page] || 10)
 
-        render json: { data: following }, status: :ok
+        render json: {
+          data: following,
+          pagination: {
+            current_page: following.current_page,
+            next_page: following.next_page,
+            prev_page: following.prev_page,
+            total_pages: following.total_pages,
+            total_count: following.total_count
+            }
+          }, status: :ok
       end
 
       # Get follower user.
@@ -62,8 +73,19 @@ module Api
       def followers
         user = User.find(params[:user_id])
         followers = user.followers
+                        .page(params[:page])
+                        .per(params[:per_page] || 10)
 
-        render json: { data: followers }, status: :ok
+        render json: {
+          data: followers,
+          pagination: {
+            current_page: followers.current_page,
+            next_page: followers.next_page,
+            prev_page: followers.prev_page,
+            total_pages: followers.total_pages,
+            total_count: followers.total_count
+          }
+        }, status: :ok
       end
     end
   end

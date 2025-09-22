@@ -91,6 +91,20 @@ paths:
         required: true
         schema:
           type: integer
+      - name: page
+        in: query
+        description: Page number (1-based)
+        required: false
+        schema:
+          type: integer
+          default: 1
+      - name: per_page
+        in: query
+        description: Items per page
+        required: false
+        schema:
+          type: integer
+          default: 25
       responses:
         '200':
           description: List of user the user is following
@@ -125,6 +139,20 @@ paths:
         required: true
         schema:
           type: integer
+      - name: page
+        in: query
+        description: Page number (1-based)
+        required: false
+        schema:
+          type: integer
+          default: 1
+      - name: per_page
+        in: query
+        description: Items per page
+        required: false
+        schema:
+          type: integer
+          default: 25
       responses:
         '200':
           description: List of followers

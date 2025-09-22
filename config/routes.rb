@@ -22,6 +22,15 @@ Rails.application.routes.draw do
           get :following
         end
       end
+
+      resources :session, param: :user_id, only: [] do
+        member do
+          post :sleep
+          post :wake
+          get :history
+          get :friends_weekly
+        end
+      end
     end
   end
 

@@ -96,4 +96,3 @@ Note: Ensure the test DB is prepared before running tests:
 ```bash
 RAILS_ENV=test bundle exec rails db:create db:schema:load
 ```
-- If you're using Spring or a preloader, restart it after changing test helpers.

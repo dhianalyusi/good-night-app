@@ -71,3 +71,5 @@ group :test do
 end
 
 gem "dotenv-rails", "~> 3.1"
+
+gem "kaminari", "~> 1.2"
